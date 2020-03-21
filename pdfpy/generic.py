@@ -355,7 +355,7 @@ def readStringFromStream(stream):
                            b_("%") : b_("%"),
                            b_("<") : b_("<"),
                            b_(">") : b_(">"),
-                           b_("[") : b_("["), 
+                           b_("[") : b_("["),
                            b_("]") : b_("]"),
                            b_("#") : b_("#"),
                            b_("_") : b_("_"),
@@ -479,7 +479,7 @@ class NameObject(str, PdfObject):
         name = stream.read(1)
         if name != NameObject.surfix:
             raise utils.PdfReadError("name read error")
-        name += utils.readUntilRegex(stream, NameObject.delimiterPattern, 
+        name += utils.readUntilRegex(stream, NameObject.delimiterPattern,
             ignore_eof=True)
         if debug: print(name)
         try:
@@ -853,13 +853,13 @@ class EncodedStreamObject(StreamObject):
 
 class RectangleObject(ArrayObject):
     """
-    This class is used to represent *page boxes* in PyPDF2. These boxes include:
+    This class is used to represent *page boxes* in pdfpy. These boxes include:
 
-        * :attr:`artBox <PyPDF2.pdf.PageObject.artBox>`
-        * :attr:`bleedBox <PyPDF2.pdf.PageObject.bleedBox>`
-        * :attr:`cropBox <PyPDF2.pdf.PageObject.cropBox>`
-        * :attr:`mediaBox <PyPDF2.pdf.PageObject.mediaBox>`
-        * :attr:`trimBox <PyPDF2.pdf.PageObject.trimBox>`
+        * :attr:`artBox <pdfpy.pdf.PageObject.artBox>`
+        * :attr:`bleedBox <pdfpy.pdf.PageObject.bleedBox>`
+        * :attr:`cropBox <pdfpy.pdf.PageObject.cropBox>`
+        * :attr:`mediaBox <pdfpy.pdf.PageObject.mediaBox>`
+        * :attr:`trimBox <pdfpy.pdf.PageObject.trimBox>`
     """
     def __init__(self, arr):
         # must have four points
@@ -954,7 +954,7 @@ class RectangleObject(ArrayObject):
 class Field(TreeObject):
     """
     A class representing a field dictionary. This class is accessed through
-    :meth:`getFields()<PyPDF2.PdfFileReader.getFields>`
+    :meth:`getFields()<pdfpy.PdfFileReader.getFields>`
     """
     def __init__(self, data):
         DictionaryObject.__init__(self)
@@ -995,7 +995,7 @@ class Field(TreeObject):
     """
     Read-only property accessing the mapping name of this field. This
     name is used by PyPDF2 as a key in the dictionary returned by
-    :meth:`getFields()<PyPDF2.PdfFileReader.getFields>`
+    :meth:`getFields()<pdfpy.PdfFileReader.getFields>`
     """
 
     flags = property(lambda self: self.get("/Ff"))

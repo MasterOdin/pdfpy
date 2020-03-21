@@ -3,7 +3,7 @@ import sys
 import unittest
 import binascii
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from pdfpy import PdfFileReader, PdfFileWriter
 
 
 # Configure path environment
@@ -47,18 +47,18 @@ class PdfReaderTestCases(unittest.TestCase):
         with open(os.path.join(RESOURCE_ROOT, 'jpeg.pdf'), 'rb') as inputfile:
             # Load PDF file from file
             ipdf = PdfFileReader(inputfile)
-        
+
             # Retrieve the text of the image
             with open(os.path.join(RESOURCE_ROOT, 'jpeg.txt'), 'r') as pdftext_file:
                 imagetext = pdftext_file.read()
-                
-            ipdf_p0 = ipdf.getPage(0)    
+
+            ipdf_p0 = ipdf.getPage(0)
             xObject = ipdf_p0['/Resources']['/XObject'].getObject()
             data = xObject['/Im4'].getData()
-    
+
             # Compare the text of the PDF to a known source
-            self.assertEqual(binascii.hexlify(data).decode(), imagetext, 
-                             msg='PDF extracted image differs from expected value.\n\nExpected:\n\n%r\n\nExtracted:\n\n%r\n\n' 
+            self.assertEqual(binascii.hexlify(data).decode(), imagetext,
+                             msg='PDF extracted image differs from expected value.\n\nExpected:\n\n%r\n\nExtracted:\n\n%r\n\n'
                              % (imagetext, binascii.hexlify(data).decode()))
 
 class AddJsTestCase(unittest.TestCase):

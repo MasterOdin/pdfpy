@@ -133,7 +133,7 @@ class PdfFileWriter(object):
         :class:`PdfFileReader<PdfFileReader>` instance.
 
         :param PageObject page: The page to add to the document. Should be
-            an instance of :class:`PageObject<PyPDF2.pdf.PageObject>`
+            an instance of :class:`PageObject<pdfpy.pdf.PageObject>`
         """
         self._addPage(page, list.append)
 
@@ -179,7 +179,7 @@ class PdfFileWriter(object):
         :param float height: The height of the new page expressed in default
             user space units.
         :return: the newly appended page
-        :rtype: :class:`PageObject<PyPDF2.pdf.PageObject>`
+        :rtype: :class:`PageObject<pdfpy.pdf.PageObject>`
         :raises PageSizeNotDefinedError: if width and height are not defined
             and previous page does not exist.
         """
@@ -198,7 +198,7 @@ class PdfFileWriter(object):
             user space units.
         :param int index: Position to add the page.
         :return: the newly appended page
-        :rtype: :class:`PageObject<PyPDF2.pdf.PageObject>`
+        :rtype: :class:`PageObject<pdfpy.pdf.PageObject>`
         :raises PageSizeNotDefinedError: if width and height are not defined
             and previous page does not exist.
         """
@@ -250,17 +250,17 @@ class PdfFileWriter(object):
 
         :param str fname: The filename to display.
         :param str fdata: The data in the file.
-      
+
         Reference:
         https://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/PDF32000_2008.pdf
         Section 7.11.3
         """
-        
+
         # We need 3 entries:
         # * The file's data
         # * The /Filespec entry
         # * The file's name, which goes in the Catalog
-        
+
 
         # The entry for the file
         """ Sample:
@@ -272,7 +272,7 @@ class PdfFileWriter(object):
         stream
         Hello world!
         endstream
-        endobj        
+        endobj
         """
         file_entry = DecodedStreamObject()
         file_entry.setData(fdata)
@@ -291,14 +291,14 @@ class PdfFileWriter(object):
         """
         efEntry = DictionaryObject()
         efEntry.update({ NameObject("/F"):file_entry })
-        
+
         filespec = DictionaryObject()
         filespec.update({
                 NameObject("/Type"): NameObject("/Filespec"),
                 NameObject("/F"): createStringObject(fname),  # Perhaps also try TextStringObject
                 NameObject("/EF"): efEntry
                 })
-                
+
         # Then create the entry for the root, as it needs a reference to the Filespec
         """ Sample:
         1 0 obj
@@ -309,13 +309,13 @@ class PdfFileWriter(object):
          /Names << /EmbeddedFiles << /Names [(hello.txt) 7 0 R] >> >>
         >>
         endobj
-        
+
         """
         embeddedFilesNamesDictionary = DictionaryObject()
         embeddedFilesNamesDictionary.update({
                 NameObject("/Names"): ArrayObject([createStringObject(fname), filespec])
                 })
-        
+
         embeddedFilesDictionary = DictionaryObject()
         embeddedFilesDictionary.update({
                 NameObject("/EmbeddedFiles"): embeddedFilesNamesDictionary
@@ -329,7 +329,7 @@ class PdfFileWriter(object):
         """
         Copy pages from reader to writer. Includes an optional callback parameter
         which is invoked after pages are appended to the writer.
-        
+
         :param reader: a PdfFileReader object from which to copy page
             annotations to this writer object.  The writer's annots
         will then be updated
@@ -373,7 +373,7 @@ class PdfFileWriter(object):
     def cloneReaderDocumentRoot(self, reader):
         '''
         Copy the reader document root to the writer.
-        
+
         :param reader:  PdfFileReader from the document root should be copied.
         :callback after_page_append
         '''
@@ -903,7 +903,7 @@ class PdfFileWriter(object):
 
         :param int pagenum: index of the page on which to place the URI action.
         :param int uri: string -- uri of resource to link to.
-        :param rect: :class:`RectangleObject<PyPDF2.generic.RectangleObject>` or array of four
+        :param rect: :class:`RectangleObject<pdfpy.generic.RectangleObject>` or array of four
             integers specifying the clickable rectangular area
             ``[xLL, yLL, xUR, yUR]``, or string in the form ``"[ xLL yLL xUR yUR ]"``.
         :param border: if provided, an array describing border-drawing
@@ -960,7 +960,7 @@ class PdfFileWriter(object):
 
         :param int pagenum: index of the page on which to place the link.
         :param int pagedest: index of the page to which the link should go.
-        :param rect: :class:`RectangleObject<PyPDF2.generic.RectangleObject>` or array of four
+        :param rect: :class:`RectangleObject<pdfpy.generic.RectangleObject>` or array of four
             integers specifying the clickable rectangular area
             ``[xLL, yLL, xUR, yUR]``, or string in the form ``"[ xLL yLL xUR yUR ]"``.
         :param border: if provided, an array describing border-drawing
@@ -1258,7 +1258,7 @@ class PdfFileReader(object):
         :param fileobj: A file object (usually a text file) to write
             a report to on all interactive form fields found.
         :return: A dictionary where each key is a field name, and each
-            value is a :class:`Field<PyPDF2.generic.Field>` object. By
+            value is a :class:`Field<pdfpy.generic.Field>` object. By
             default, the mapping name is used for keys.
         :rtype: dict, or ``None`` if form data could not be located.
         """
@@ -1352,7 +1352,7 @@ class PdfFileReader(object):
         Retrieves the named destinations present in the document.
 
         :return: a dictionary which maps names to
-            :class:`Destinations<PyPDF2.generic.Destination>`.
+            :class:`Destinations<pdfpy.generic.Destination>`.
         :rtype: dict
         """
         if retval == None:
@@ -1398,7 +1398,7 @@ class PdfFileReader(object):
         """
         Retrieves the document outline present in the document.
 
-        :return: a nested list of :class:`Destinations<PyPDF2.generic.Destination>`.
+        :return: a nested list of :class:`Destinations<pdfpy.generic.Destination>`.
         """
         if outlines == None:
             outlines = []
@@ -1461,7 +1461,7 @@ class PdfFileReader(object):
         Retrieve page number of a given PageObject
 
         :param PageObject page: The page to get page number. Should be
-            an instance of :class:`PageObject<PyPDF2.pdf.PageObject>`
+            an instance of :class:`PageObject<pdfpy.pdf.PageObject>`
         :return: the page number or -1 if page not found
         :rtype: int
         """
@@ -1475,7 +1475,7 @@ class PdfFileReader(object):
 
         :param Destination destination: The destination to get page number.
              Should be an instance of
-             :class:`Destination<PyPDF2.pdf.Destination>`
+             :class:`Destination<pdfpy.pdf.Destination>`
         :return: the page number or -1 if page not found
         :rtype: int
         """
@@ -2155,8 +2155,8 @@ class PageObject(DictionaryObject):
     """
     This class represents a single page within a PDF file.  Typically this
     object will be created by accessing the
-    :meth:`getPage()<PyPDF2.PdfFileReader.getPage>` method of the
-    :class:`PdfFileReader<PyPDF2.PdfFileReader>` class, but it is
+    :meth:`getPage()<pdfpy.PdfFileReader.getPage>` method of the
+    :class:`PdfFileReader<pdfpy.PdfFileReader>` class, but it is
     also possible to create an empty page with the
     :meth:`createBlankPage()<PageObject.createBlankPage>` static method.
 
@@ -2689,14 +2689,14 @@ class PageObject(DictionaryObject):
 
     mediaBox = createRectangleAccessor("/MediaBox", ())
     """
-    A :class:`RectangleObject<PyPDF2.generic.RectangleObject>`, expressed in default user space units,
+    A :class:`RectangleObject<pdfpy.generic.RectangleObject>`, expressed in default user space units,
     defining the boundaries of the physical medium on which the page is
     intended to be displayed or printed.
     """
 
     cropBox = createRectangleAccessor("/CropBox", ("/MediaBox",))
     """
-    A :class:`RectangleObject<PyPDF2.generic.RectangleObject>`, expressed in default user space units,
+    A :class:`RectangleObject<pdfpy.generic.RectangleObject>`, expressed in default user space units,
     defining the visible region of default user space.  When the page is
     displayed or printed, its contents are to be clipped (cropped) to this
     rectangle and then imposed on the output medium in some
@@ -2705,20 +2705,20 @@ class PageObject(DictionaryObject):
 
     bleedBox = createRectangleAccessor("/BleedBox", ("/CropBox", "/MediaBox"))
     """
-    A :class:`RectangleObject<PyPDF2.generic.RectangleObject>`, expressed in default user space units,
+    A :class:`RectangleObject<pdfpy.generic.RectangleObject>`, expressed in default user space units,
     defining the region to which the contents of the page should be clipped
     when output in a production enviroment.
     """
 
     trimBox = createRectangleAccessor("/TrimBox", ("/CropBox", "/MediaBox"))
     """
-    A :class:`RectangleObject<PyPDF2.generic.RectangleObject>`, expressed in default user space units,
+    A :class:`RectangleObject<pdfpy.generic.RectangleObject>`, expressed in default user space units,
     defining the intended dimensions of the finished page after trimming.
     """
 
     artBox = createRectangleAccessor("/ArtBox", ("/CropBox", "/MediaBox"))
     """
-    A :class:`RectangleObject<PyPDF2.generic.RectangleObject>`, expressed in default user space units,
+    A :class:`RectangleObject<pdfpy.generic.RectangleObject>`, expressed in default user space units,
     defining the extent of the page's meaningful content as intended by the
     page's creator.
     """
@@ -2849,7 +2849,7 @@ class DocumentInformation(DictionaryObject):
     """
     A class representing the basic document metadata provided in a PDF File.
     This class is accessible through
-    :meth:`getDocumentInfo()<PyPDF2.PdfFileReader.getDocumentInfo()>`
+    :meth:`getDocumentInfo()<pdfpy.PdfFileReader.getDocumentInfo()>`
 
     All text properties of the document metadata have
     *two* properties, eg. author and author_raw. The non-raw property will

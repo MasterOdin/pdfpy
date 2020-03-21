@@ -20,11 +20,16 @@ EXAMPLES
 """
 # Copyright (c) 2014, Steve Witham <switham_github@mac-guyver.com>.
 # All rights reserved. This software is available under a BSD license;
-# see https://github.com/mstamy2/PyPDF2/LICENSE
+# see https://github.com/MasterOdin/pdfpy/LICENSE
 
 from __future__ import print_function
 import argparse
-from PyPDF2.pagerange import PAGE_RANGE_HELP
+from pdfpy.pagerange import PAGE_RANGE_HELP
+from sys import stderr, stdout, exit
+import os
+import traceback
+
+from pdfpy import PdfFileMerger, parse_filename_page_ranges
 
 
 def parse_args():
@@ -43,14 +48,6 @@ def parse_args():
     args = parser.parse_args()
     args.fn_pgrgs.insert(0, args.first_filename[0])
     return args
-
-
-from sys import stderr, stdout, exit
-import os
-import traceback
-from collections import defaultdict
-
-from PyPDF2 import PdfFileMerger, parse_filename_page_ranges
 
 
 if __name__ == "__main__":
